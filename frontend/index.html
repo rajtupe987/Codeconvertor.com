@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Code Conversion and Analysis</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      text-align: center;
+      padding: 20px;
+      background-color: #2c3e50;
+      color: #fff;
+    }
+
+    main {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #fff;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      border-radius: 5px;
+    }
+
+    .code-input textarea {
+      width: 100%;
+      min-height: 200px;
+      resize: vertical;
+      padding: 10px;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      background-color: #f5f5f5;
+    }
+
+    .language-select {
+      margin-top: 10px;
+    }
+
+    .buttons {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .buttons button {
+      margin: 5px;
+      padding: 10px 20px;
+      font-size: 16px;
+      color: #fff;
+      background-color: #2c3e50;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .buttons button:hover {
+      background-color: #34495e;
+    }
+
+    .output {
+      margin-top: 20px;
+      background-color: #f5f5f5;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      padding: 10px;
+    }
+
+    .output h2 {
+      margin-bottom: 10px;
+      color: #2c3e50;
+    }
+
+    .output pre {
+      font-size: 14px;
+      white-space: pre-wrap;
+      overflow-x: auto;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>Code Conversion and Analysis</h1>
+  </header>
+  <main>
+    <div class="code-input">
+      <textarea id="inputCode" placeholder="Enter your code here..."></textarea>
+      <div class="language-select">
+        <label for="selectLanguage">Select Language:</label>
+        <select id="selectLanguage">
+          <option value="python">Python</option>
+          <option value="javascript">JavaScript</option>
+          <option value="C">C</option>
+          <option value="C++">C++</option>
+          <option value="PHP">PHP</option>
+          <option value="Ruby">Ruby</option>
+          <!-- Add other language options here -->
+        </select>
+      </div>
+    </div>
+    <div class="buttons">
+      <button id="convertButton">Convert Code</button>
+      <button id="bugCheckButton">Find Bugs</button>
+      <button id="qualityCheckButton">Check Code Quality</button>
+    </div>
+    <div class="output">
+      <h2>Output:</h2>
+      <pre id="outputCode"></pre>
+    </div>
+  </main>
+
+</body>
+
+</html>
+
+
+<script>
+
+
+  document.getElementById('convertButton').addEventListener('click', function (event) {
+    event.preventDefault();
+
+    const codeInput = document.getElementById('inputCode').value;
+    const selectedLanguage = document.getElementById('selectLanguage').value;
+
+    const requestBody = {
+      code: codeInput,
+      targetLanguage: selectedLanguage
+    };
+
+    fetch('https://nice-lime-yak-wear.cyclic.cloud/main/convert', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(requestBody)
+    })
+      .then(response => response.json())
+      .then(data => {
+        const convertedCode = data.convertedCode;
+        displayConvertedCode(convertedCode);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  });
+
+  function displayConvertedCode(convertedCode) {
+    const outputElement = document.getElementById('outputCode');
+    outputElement.innerText = convertedCode;
+  }
+
+
+
+
+document.getElementById("bugCheckButton").addEventListener("click",(e)=>{
+  e.preventDefault();
+
+  const codeInput = document.getElementById('inputCode').value;
+  
+
+  if(!codeInput){
+    
+  }
+
+  console.log(codeInput)
+
+    const requestBody = {
+      code: codeInput
+    };
+
+    fetch('https://nice-lime-yak-wear.cyclic.cloud/main/debug', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(requestBody)
+    })
+      .then(response => response.json())
+      .then(data => {
+        const debugedcode = data.debuggedCode;
+        displayConvertedCode(debugedcode);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+
+})
+
+
+
+document.getElementById("qualityCheckButton").addEventListener("click",(e)=>{
+
+  e.preventDefault();
+ 
+  
+  const codeInput = document.getElementById('inputCode').value;
+   
+    const requestBody = {
+      code: codeInput,
+    };
+
+    fetch('https://nice-lime-yak-wear.cyclic.cloud/main/accuracy', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(requestBody)
+    })
+      .then(response => response.json())
+      .then(data => {
+
+        const accuratecode = data.accurateCode;
+        displayConvertedCode(accuratecode);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+})
+
+
+</script>
